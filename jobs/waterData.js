@@ -35,7 +35,7 @@ const getData = async url => {
 	    const data = response.data;
 
     	// loop through data and print out addresses
-    	await data.features.map(
+    	data.features.map(
 	    	res => {
 
 	    		let streetAddress = res.attributes.PREMISEADDRESS;
@@ -43,7 +43,7 @@ const getData = async url => {
 	    		let waterOffDate = res.attributes.WATEROFFDATE;
 	    		let compareRecordSql = 'SELECT * FROM water_arlington.addresses WHERE street LIKE ?';
 
-	    		await database.query(compareRecordSql, streetAddress, (error1, results1, fields1) => {
+	    		database.query(compareRecordSql, streetAddress, (error1, results1, fields1) => {
 			    	if (error1) {
 			    		return console.error('error1:', error1.message);
 			  		}
