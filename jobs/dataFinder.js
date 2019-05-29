@@ -4,8 +4,8 @@ const mysqlConfig  = require('../config/mysqlConfig.js');
 const appendApi  = require('../config/appendApi.js');
 const axios = require("axios");
 
-const sqlQueryMissingPhoneNumbers = `SELECT * FROM water_arlington.addresses WHERE owner_phone_1 is null AND owner_name NOT REGEXP 'lp|llc|acquisition|trust|holding|manage|education|living|invest|participation|venture|realty|asset|city|property|properties|international|ltd|current' LIMIT 0, 2`
-const sqlQueryUpdatePhoneNumbers = `UPDATE water_arlington.addresses SET owner_phone_1 = ?, SET df_first_name = ?, SET df_middle_name = ?, SET df_last_name = ?, SET df_address = ?, SET df_city = ?, SET df_state = ?, SET df_zip = ? WHERE street = ?`
+const sqlQueryMissingPhoneNumbers = `SELECT * FROM water_arlington.addresses WHERE owner_phone_1 is null AND owner_name NOT REGEXP 'lp|llc|acquisition|trust|holding|manage|education|living|invest|participation|venture|realty|asset|city|property|properties|international|ltd|current' LIMIT 0, 1`
+const sqlQueryUpdatePhoneNumbers = `UPDATE water_arlington.addresses SET owner_phone_1 = ?, df_first_name = ?, df_middle_name = ?, df_last_name = ?, df_address = ?, df_city = ?, df_state = ?, df_zip = ? WHERE street = ?`
 
 console.log('grabbing phone number info....');
 
@@ -103,19 +103,20 @@ Database.execute( mysqlConfig,
 	    				console.log("row", row.data.datafinder)
 	    				const address = row.data.datafinder.results[0].Address;
 	    				const phone = row.data.datafinder.results[0].Phone;
-	    				const df_first_name = row.data.datafinder.results[0].Phone;
-	    				const df_middle_name = row.data.datafinder.results[0].Phone;
-	    				const df_last_name = row.data.datafinder.results[0].Phone;
-	    				const df_address = row.data.datafinder.results[0].Phone;
-	    				const df_city = row.data.datafinder.results[0].Phone;
-	    				const df_state = row.data.datafinder.results[0].Phone;
-	    				const df_zip = row.data.datafinder.results[0].Phone;
-	    				let record = [phone, address]
+	    				const df_first_name = row.data.datafinder.results[0].FirstName;
+	    				const df_middle_name = row.data.datafinder.results[0].MiddleName;
+	    				const df_last_name = row.data.datafinder.results[0].LastName;
+	    				const df_address = row.data.datafinder.results[0].Address;
+	    				const df_city = row.data.datafinder.results[0].City;
+	    				const df_state = row.data.datafinder.results[0].State;
+	    				const df_zip = row.data.datafinder.results[0].Zip;
+	    				let record = [phone, df_first_name, df_middle_name, df_last_name, df_address, df_city, df_state, df_zip, df_address];
 	    				console.log('record', record);
 	    				console.log('==============');
-	    				// database.query(sqlQueryUpdatePhoneNumbers, record)
+	    				return database.query(sqlQueryUpdatePhoneNumbers, record)
 	    			})
 
+	    			return results;
 
 	    		}))
 	    } )
