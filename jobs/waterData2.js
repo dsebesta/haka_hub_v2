@@ -6,9 +6,6 @@ const mysqlConfig  = require('../config/mysqlConfig.js');
 const mysql = require('mysql');
 let arlingtonData = {};
 let arrStreetAddresses = [];
-// const testData = ['1128 wheaton ct', '5901 RISING MEADOW DR'];
-
-
 
 console.log('waterData2 running...');
 
